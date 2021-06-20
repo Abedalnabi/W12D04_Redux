@@ -1,32 +1,45 @@
-import React, { useContext } from 'react';
-import { NewArticleContext } from './../context/newArticle';
+import React, { useContext, useState } from "react";
+import { NewArticleContext } from "./../context/newArticle";
+
+import { setArticle } from "./../reducer/articles";
+import { useDispatch, useSelector } from "react-redux";
 
 const NewArticle = () => {
-	const newArticleContext = useContext(NewArticleContext);
+  const disPatch = useDispatch();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [message, setMessage] = useState("");
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		newArticleContext.createNewArticle();
-	};
+  const newArticleContext = useContext(NewArticleContext);
 
-	return (
-		<>
-			<form onSubmit={handleSubmit}>
-				<input
-					type="text"
-					placeholder="article title here"
-					onChange={(e) => newArticleContext.setTitle(e.target.value)}
-				/>
-				<textarea
-					placeholder="article description here"
-					onChange={(e) => newArticleContext.setDescription(e.target.value)}
-				></textarea>
-				<button>Create New Article</button>
-			</form>
+  const state = useSelector((state) => {
+    return {
+      article: state.articleReducer.article,
+    };
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    newArticleContext.createNewArticle();
+  };
 
-			{newArticleContext.message && <div>{newArticleContext.message}</div>}
-		</>
-	);
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="article title here"
+          onChange={(e) => newArticleContext.setTitle(e.target.value)}
+        />
+        <textarea
+          placeholder="article description here"
+          onChange={(e) => newArticleContext.setDescription(e.target.value)}
+        ></textarea>
+        <button>Create New Article</button>
+      </form>
+
+      {newArticleContext.message && <div>{newArticleContext.message}</div>}
+    </>
+  );
 };
 
 export default NewArticle;
