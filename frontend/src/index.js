@@ -9,15 +9,22 @@ import LoginProvider from "./context/login";
 import NewArticleProvider from "./context/newArticle";
 import DashboardProvider from "./context/dashboard";
 
-//redux
 import { Provider } from "react-redux";
 import store from "./reducer/index";
 
 ReactDOM.render(
   <Router>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <LoginProvider>
+      <RegisterProvider>
+        <NewArticleProvider>
+          <DashboardProvider>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </DashboardProvider>
+        </NewArticleProvider>
+      </RegisterProvider>
+    </LoginProvider>
   </Router>,
   document.getElementById("root")
 );
